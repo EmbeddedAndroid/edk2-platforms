@@ -199,7 +199,7 @@
 
   # SMEM
   gQualcommSiliconPkgTokenSpaceGuid.PcdSmemBaseAddress                    | 0x89B00000
-  gQualcommSiliconPkgTokenSpaceGuid.PcdSmemSize                           | 0x00200000
+  gQualcommSiliconPkgTokenSpaceGuid.PcdSmemSize                           | 0x00400000
   gQualcommSiliconPkgTokenSpaceGuid.PcdSmemMaxItems                       | 512
 
   #
