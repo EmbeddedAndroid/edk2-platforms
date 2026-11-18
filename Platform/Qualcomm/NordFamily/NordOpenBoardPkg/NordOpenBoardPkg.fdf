@@ -1,0 +1,11 @@
+## @file
+#  NordOpenBoardPkg FDF file
+#
+#  Reuses the NordMinPlatformPkg FD, FV and rule definitions, placed at the
+#  NORD_FD_BASE set in NordOpenBoardPkg.dsc.
+#
+#  Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.<BR>
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+!include NordMinPlatformPkg/NordMinPlatformPkg.fdf.inc
