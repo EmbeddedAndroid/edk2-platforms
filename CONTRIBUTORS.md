@@ -61,6 +61,7 @@ out-of-sync with CODEOWNERS and/or REVIEWERS over time and need an occasional re
 | Tabish Sarwar          | tsarwar@qti.qualcomm.com         | [@tsarwar-dev](https://github.com/tsarwar-dev)         |
 | Theo Jehl              | theojehl76@gmail.com             | [@theomacx86](https://github.com/theomacx86)           |
 | Thomas Abraham         | thomas.abraham@arm.com           |                                                        |
+| Tyler Baker            | tyler.baker@oss.qualcomm.com     | [@EmbeddedAndroid](https://github.com/EmbeddedAndroid) |
 | USER0FISH              | libing1202@outlook.com           | [@USER0FISH](https://github.com/USER0FISH)             |
 | Vishal Oliyil Kunnil   | vishalo@qti.qualcomm.com         | [@vishalo](https://github.com/vishalo)                 |
 | Wenyi Xie              | xiewenyi2@huawei.com             |                                                        |
