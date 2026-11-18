@@ -1093,15 +1093,15 @@ UpdateDynamicMemoryRegions (
 }
 
 /**
-  Identify and report upper RAM partitions to the HOB list.
+  Report the RAM partitions above the FD partition to the HOB list.
 
-  Add the highest RAM aprtition table entry as avilable memory.
+  Publish every RAM partition that starts above the end of the partition
+  holding the FD as system memory. Within that partition the static map
+  describes only the region holding the FD.
 
-  @retval EFI_SUCCESS           Upper memory partitions were successfully
-                                identified and reported.
-  @retval EFI_NOT_FOUND         No RAM partitions were found in the
-                                platform configuration.
-  @retval EFI_OUT_OF_RESOURCES  Failed to allocate resources for HOB creation.
+  @retval EFI_SUCCESS           The partitions above the FD partition, if
+                                any, were reported.
+  @retval EFI_OUT_OF_RESOURCES  The memory region table is full.
 
 **/
 EFI_STATUS
@@ -1112,10 +1112,10 @@ AddUpperMemoryFromRamPartitions (
 {
   MEM_REGION_INFO  EntryList[RAM_NUM_PART_ENTRIES];
   UINTN            EntryCount;
-  UINT64           HighestBase;
-  UINT64           HighestSize;
   UINTN            Index;
-  UINTN            HighestIndex;
+  UINTN            Added;
+  UINT64           FdBankEnd;
+  MEM_REGION_INFO  FdBank;
   EFI_STATUS       Status;
 
   EntryCount = RAM_NUM_PART_ENTRIES;
@@ -1126,46 +1126,56 @@ AddUpperMemoryFromRamPartitions (
     return Status;
   }
 
-  /* Find the uppermost RAM partition entry */
-  HighestBase  = 0;
-  HighestSize  = 0;
-  HighestIndex = EntryCount; /* sentinel: no match */
+  Status = RamPartitionGetPartitionEntryByAddr (FixedPcdGet64 (PcdFdBaseAddress), &FdBank);
+  if (EFI_ERROR (Status)) {
+    FdBankEnd = FixedPcdGet64 (PcdFdBaseAddress) + FixedPcdGet64 (PcdSystemMemorySize);
+  } else {
+    FdBankEnd = FdBank.MemBase + FdBank.MemSize;
+  }
+
+  Added = 0;
 
   for (Index = 0; Index < EntryCount; Index++) {
-    if (EntryList[Index].MemBase > HighestBase) {
-      HighestBase  = EntryList[Index].MemBase;
-      HighestSize  = EntryList[Index].MemSize;
-      HighestIndex = Index;
+    if ((EntryList[Index].MemBase < FdBankEnd) || (EntryList[Index].MemSize == 0)) {
+      continue;
     }
+
+    if (mNumMemRegions >= MAX_MEMORY_REGIONS) {
+      ASSERT (mNumMemRegions < MAX_MEMORY_REGIONS);
+      return EFI_OUT_OF_RESOURCES;
+    }
+
+    DEBUG ((
+      DEBUG_INFO,
+      "RAM partition 0x%016lx-0x%016lx reported as system memory\n",
+      EntryList[Index].MemBase,
+      EntryList[Index].MemBase + EntryList[Index].MemSize - 1
+      ));
+
+    AsciiStrCpyS (mMemRegions[mNumMemRegions].Name, MAX_MEM_LABEL_NAME, EntryList[Index].Name);
+    mMemRegions[mNumMemRegions].MemBase           = EntryList[Index].MemBase;
+    mMemRegions[mNumMemRegions].MemSize           = EntryList[Index].MemSize;
+    mMemRegions[mNumMemRegions].BuildHobOption    = NoBuildHob;
+    mMemRegions[mNumMemRegions].ResourceType      = EFI_RESOURCE_SYSTEM_MEMORY;
+    mMemRegions[mNumMemRegions].ResourceAttribute = SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES;
+    mMemRegions[mNumMemRegions].MemoryType        = (EFI_MEMORY_TYPE)EfiConventionalMemory;
+    mMemRegions[mNumMemRegions].CacheAttributes   = (ARM_MEMORY_REGION_ATTRIBUTES)ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK;
+    mNumMemRegions++;
+
+    /* Manually build the ResourceDescriptorHob so DXE discovers this memory,
+   * without a MemoryAllocationHob that would expose it to the PEI allocator */
+    BuildResourceDescriptorHob (
+      EFI_RESOURCE_SYSTEM_MEMORY,
+      SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES,
+      EntryList[Index].MemBase,
+      EntryList[Index].MemSize
+      );
+    Added++;
   }
 
-  if (HighestIndex == EntryCount) {
-    return EFI_NOT_FOUND;
+  if (Added == 0) {
+    DEBUG ((DEBUG_VERBOSE, "No RAM partition above 0x%016lx\n", FdBankEnd));
   }
-
-  if (mNumMemRegions >= MAX_MEMORY_REGIONS) {
-    ASSERT (mNumMemRegions < MAX_MEMORY_REGIONS);
-    return EFI_OUT_OF_RESOURCES;
-  }
-
-  AsciiStrCpyS (mMemRegions[mNumMemRegions].Name, MAX_MEM_LABEL_NAME, EntryList[HighestIndex].Name);
-  mMemRegions[mNumMemRegions].MemBase           = HighestBase;
-  mMemRegions[mNumMemRegions].MemSize           = HighestSize;
-  mMemRegions[mNumMemRegions].BuildHobOption    = NoBuildHob;
-  mMemRegions[mNumMemRegions].ResourceType      = EFI_RESOURCE_SYSTEM_MEMORY;
-  mMemRegions[mNumMemRegions].ResourceAttribute = SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES;
-  mMemRegions[mNumMemRegions].MemoryType        = (EFI_MEMORY_TYPE)EfiConventionalMemory;
-  mMemRegions[mNumMemRegions].CacheAttributes   = (ARM_MEMORY_REGION_ATTRIBUTES)ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK;
-  mNumMemRegions++;
-
-  /* Manually build the ResourceDescriptorHob so DXE discovers this memory,
- * without a MemoryAllocationHob that would expose it to the PEI allocator */
-  BuildResourceDescriptorHob (
-    EFI_RESOURCE_SYSTEM_MEMORY,
-    SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES,
-    HighestBase,
-    HighestSize
-    );
 
   return EFI_SUCCESS;
 }
