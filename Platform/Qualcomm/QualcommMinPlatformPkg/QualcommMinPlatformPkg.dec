@@ -71,7 +71,8 @@
   #  @Prompt Boot Device Tree Base Address
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdBootDtBase                  | 0x0          | UINT64  | 0xA1000010
 
-  ## Size of Device Tree Blob region in bytes.
+  ## Size of Device Tree Blob region in bytes, 0 if the platform has no
+  #  boot device tree (static memory map).
   #  @Prompt Boot Device Tree Size
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdBootDtSize                  | 0x0          | UINT64  | 0xA1000011
 
