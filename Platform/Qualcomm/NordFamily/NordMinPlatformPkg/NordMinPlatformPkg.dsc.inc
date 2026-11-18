@@ -205,6 +205,9 @@
   #
   # gQualcommMinPlatformPkgTokenSpaceGuid Overrides
   #
+  # Max memory: 0 is no limit; Nord DRAM ends above 64 GiB
+  gQualcommMinPlatformPkgTokenSpaceGuid.PcdMaxMemory                      | 0x0
+
   # Device Tree (DT)
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdBootDtBase                     | 0xD9D00000
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdBootDtSize                     | 0x00100000
