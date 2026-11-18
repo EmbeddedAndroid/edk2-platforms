@@ -68,6 +68,8 @@
   gArmTokenSpaceGuid.PcdArmPrimaryCoreMask
   gArmTokenSpaceGuid.PcdArmPrimaryCore
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase
+  gQcomPlatformTokenSpaceGuid.PcdQcomUfsHcDxeBaseAddress
+  gQcomPlatformTokenSpaceGuid.PcdQcomUfsHcDxeSize
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdBootDtBase
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdBootDtSize
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdIMemCookiesBase

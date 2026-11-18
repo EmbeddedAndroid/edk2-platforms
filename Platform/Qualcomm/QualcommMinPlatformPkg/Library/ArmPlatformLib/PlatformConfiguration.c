@@ -1415,6 +1415,19 @@ LoadStaticPlatformCfg (
   mMemRegions[mNumMemRegions].CacheAttributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
   mNumMemRegions++;
 
+  /* UFS host controller */
+  if (FixedPcdGet32 (PcdQcomUfsHcDxeSize) != 0) {
+    AsciiStrCpyS (mMemRegions[mNumMemRegions].Name, MAX_MEM_LABEL_NAME, "UFS");
+    mMemRegions[mNumMemRegions].MemBase           = FixedPcdGet32 (PcdQcomUfsHcDxeBaseAddress);
+    mMemRegions[mNumMemRegions].MemSize           = FixedPcdGet32 (PcdQcomUfsHcDxeSize);
+    mMemRegions[mNumMemRegions].BuildHobOption    = AddPeripheral;
+    mMemRegions[mNumMemRegions].ResourceType      = EFI_RESOURCE_MEMORY_MAPPED_IO;
+    mMemRegions[mNumMemRegions].ResourceAttribute = EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE;
+    mMemRegions[mNumMemRegions].MemoryType        = EfiMemoryMappedIO;
+    mMemRegions[mNumMemRegions].CacheAttributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+    mNumMemRegions++;
+  }
+
   DEBUG ((
     DEBUG_INFO,
     "LoadStaticPlatformCfg: %d regions (FD base=0x%lx size=0x%lx)\n",
