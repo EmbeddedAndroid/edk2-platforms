@@ -95,6 +95,7 @@ Legend: [S] = shared, [B] = board-specific, [T] = tianocore-shared
 | `NordMinPlatformPkg/` | [S] Board-agnostic Nord family platform layer. Provides family-wide PEIMs, DXE drivers, and PCDs. Hosted at `www.github.com/tianocore/`. |
 | `NordAuOpenBoardPkg/` | [B] Open-board support package for Nord **AU** (Automotive) product line boards. |
 | `NordDcOpenBoardPkg/` | [B] Open-board support package for Nord **DC** (Data Center / Server) product line boards. |
+| `NordOpenBoardPkg/` | [B] Open-board support package for Nord boards booted through the open boot stack (TF-A loads the FD as BL33 next to OP-TEE), built as a thin board layer on top of `NordMinPlatformPkg`. |
 | `Nord*OpenBoardPkg/` | [B] Template / wildcard entry representing additional Nord open-board packages for other BU product lines (e.g. IoT, RBx, Arduino-class boards). |
 
 ---

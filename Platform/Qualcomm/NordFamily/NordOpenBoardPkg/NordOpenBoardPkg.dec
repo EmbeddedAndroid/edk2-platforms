@@ -1,0 +1,14 @@
+## @file
+#  Declaration file for NordOpenBoardPkg.
+#
+#  Board package for Nord boards booted through the open boot stack.
+#
+#  Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.<BR>
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 1.30
+  PACKAGE_NAME                   = NordOpenBoardPkg
+  PACKAGE_GUID                   = 7E11394B-2C84-42B0-844E-BD2928BF6233
+  PACKAGE_VERSION                = 1.0
