@@ -214,7 +214,7 @@
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdIMemCookiesSize                | 0x00001000
 
   # Trace32 Debug
-  gQualcommMinPlatformPkgTokenSpaceGuid.PcdTrace32DdrBase                 | 0xD8FFB000
+  gQualcommMinPlatformPkgTokenSpaceGuid.PcdTrace32DdrBase                 | 0xD9CFB000
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdTrace32DdrSize                 | 0x00005000
 
 
