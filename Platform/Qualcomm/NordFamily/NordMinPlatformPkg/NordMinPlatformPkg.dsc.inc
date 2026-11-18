@@ -159,6 +159,16 @@
   MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
   MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
 
+  #
+  # UFS host controller
+  #
+  MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
+  Silicon/Qualcomm/Drivers/QcomUfsHcDxe/QcomUfsHcDxe.inf {
+    <LibraryClasses>
+      NonDiscoverableDeviceRegistrationLib|MdeModulePkg/Library/NonDiscoverableDeviceRegistrationLib/NonDiscoverableDeviceRegistrationLib.inf
+  }
+  MdeModulePkg/Bus/Pci/UfsPciHcDxe/UfsPciHcDxe.inf
+
 #
 # Qualcomm Silicon and Platform dsc
 #
@@ -192,6 +202,12 @@
 
   gArmPlatformTokenSpaceGuid.PcdCPUCoresStackBase                         | gArmTokenSpaceGuid.PcdSystemMemoryBase + 0x400000
   gArmPlatformTokenSpaceGuid.PcdCPUCorePrimaryStackSize                   | 0x80000
+
+  #
+  # gQcomPlatformTokenSpaceGuid Overrides
+  #
+  gQcomPlatformTokenSpaceGuid.PcdQcomUfsHcDxeBaseAddress                  | 0x01D44000
+  gQcomPlatformTokenSpaceGuid.PcdQcomUfsHcDxeSize                         | 0x00003000
 
   #
   # gQualcommSiliconPkgTokenSpaceGuid Overrides
