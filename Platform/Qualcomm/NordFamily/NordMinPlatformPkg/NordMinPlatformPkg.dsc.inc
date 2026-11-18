@@ -8,6 +8,11 @@
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 ##
 
+[Defines]
+!ifndef NORD_FD_BASE
+  DEFINE NORD_FD_BASE = 0xD8D00000
+!endif
+
 [SkuIds]
   0 | DEFAULT
 
@@ -36,7 +41,7 @@
 !include MinPlatformPkg/Include/Dsc/MinPlatformFeaturesPcd.dsc.inc
 
 [PcdsFixedAtBuild]
-  gMinPlatformPkgTokenSpaceGuid.PcdFlashAreaBaseAddress                   | 0xD8D00000
+  gMinPlatformPkgTokenSpaceGuid.PcdFlashAreaBaseAddress                   | $(NORD_FD_BASE)
   gMinPlatformPkgTokenSpaceGuid.PcdFlashFvFspMBase                        | 0x00000000 # Will be updated by build
 
   #
@@ -184,7 +189,7 @@
   #
   # gArmTokenSpaceGuid Overrides
   #
-  gArmTokenSpaceGuid.PcdSystemMemoryBase                                  | 0xD8D00000
+  gArmTokenSpaceGuid.PcdSystemMemoryBase                                  | $(NORD_FD_BASE)
   gArmTokenSpaceGuid.PcdSystemMemorySize                                  | 0x10000000
 
   gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum                            | 29
@@ -233,7 +238,7 @@
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdIMemCookiesSize                | 0x00001000
 
   # Trace32 Debug
-  gQualcommMinPlatformPkgTokenSpaceGuid.PcdTrace32DdrBase                 | 0xD9CFB000
+  gQualcommMinPlatformPkgTokenSpaceGuid.PcdTrace32DdrBase                 | $(NORD_FD_BASE) + 0x00FFB000
   gQualcommMinPlatformPkgTokenSpaceGuid.PcdTrace32DdrSize                 | 0x00005000
 
 

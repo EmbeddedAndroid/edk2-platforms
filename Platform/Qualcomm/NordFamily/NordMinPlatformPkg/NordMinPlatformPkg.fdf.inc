@@ -11,7 +11,7 @@
   DEFINE QUALCOMM_DEVICETREE_FRAMEWORK_ENABLE = FALSE
 !endif
 
-SET gMinPlatformPkgTokenSpaceGuid.PcdFlashAreaBaseAddress      = 0xD8D00000
+SET gMinPlatformPkgTokenSpaceGuid.PcdFlashAreaBaseAddress      = $(NORD_FD_BASE)
 SET gMinPlatformPkgTokenSpaceGuid.PcdFlashAreaSize             = 0x380000
 
 #
@@ -65,7 +65,7 @@ SET gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase   = gEfiMdeModu
   DATA = { 0xFF } # Hack to ensure build doesn't treat the next PCD as Base/Size to be written
 
 [FD.NordMinPlatformPkg]
-  BaseAddress   = 0xD8D00000|gArmTokenSpaceGuid.PcdFdBaseAddress
+  BaseAddress   = $(NORD_FD_BASE)|gArmTokenSpaceGuid.PcdFdBaseAddress
   Size          = 0x00380000|gArmTokenSpaceGuid.PcdFdSize
   ErasePolarity = 1
   BlockSize     = 0x1000
