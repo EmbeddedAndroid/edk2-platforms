@@ -55,12 +55,14 @@ EarlyCacheInit (
       .Length       = EFI_PAGE_SIZE,
       .Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE
     },
+ #if FixedPcdGet64 (PcdBootDtSize) != 0
     {
       .PhysicalBase = FixedPcdGet64 (PcdBootDtBase),
       .VirtualBase  = FixedPcdGet64 (PcdBootDtBase),
       .Length       = FixedPcdGet64 (PcdBootDtSize),
       .Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK
     },
+ #endif
     {
       .PhysicalBase = FixedPcdGet64 (PcdSystemMemoryBase),
       .VirtualBase  = FixedPcdGet64 (PcdSystemMemoryBase),
