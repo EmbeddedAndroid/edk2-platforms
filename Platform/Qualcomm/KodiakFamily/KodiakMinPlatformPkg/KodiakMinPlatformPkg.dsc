@@ -16,6 +16,5 @@
   OUTPUT_DIRECTORY            = Build/$(PLATFORM_NAME)
   BUILD_TARGETS               = DEBUG|RELEASE|NOOPT
   SKUID_IDENTIFIER            = ALL
-  SMM_REQUIRED                = FALSE
 
 !include KodiakMinPlatformPkg/KodiakMinPlatformPkg.dsc.inc
